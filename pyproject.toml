@@ -1,0 +1,14 @@
+[tool.poetry]
+name = "ddd-user-registration-practice"
+version = "0.1.0"
+description = ""
+authors = ["KoseiN38 <kooose0308@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
