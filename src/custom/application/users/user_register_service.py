@@ -1,3 +1,4 @@
+from src.core.logger.logger import logger
 from src.core.trunsaction.trunsaction import transactional
 from src.custom.domein.entities.user import User
 from src.custom.domein.services.user_service import UserService
@@ -21,8 +22,8 @@ class UserRegisterApplication:
         """
         user = User(UserId(), UserName(username))
         if self.user_service.exist(user):
-            print("ユーザー名が既に存在します。")
+            logger.error("ユーザー名が既に存在します。")
             return None
         self.user_repository.save(user)
-        print("ユーザーが正常に作成されました。")
+        logger.info("ユーザーが正常に作成されました。")
         return user
