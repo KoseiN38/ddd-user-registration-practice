@@ -10,6 +10,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
+      with:
+        ref: ${{ github.head_ref }}
     - name: Set up Python 3.11
       uses: actions/setup-python@v4
       with:
@@ -31,13 +33,14 @@ jobs:
       run: |
         poetry run python -m ruff check src/
         poetry run python -m ruff check test/
-    - name: Check for modified files
-      id: git-check
-      run: echo "modified=$(if git diff-index --quiet HEAD --; then echo "false"; else echo "true"; fi)" >> $GITHUB_OUTPUT
-    - name: Push changes
-      if: steps.git-check.outputs.modified == 'true'
+    - name: Commit changes
       run: |
         git config --global user.name 'github-actions'
         git config --global user.email 'github-actions@github.com'
-        git commit -am "style: workflowによるpython自動整形"
-        git push
+        git add .
+        git diff --quiet && git diff --staged --quiet || git commit -m "style: ワークフローによるPythonコードの自動整形"
+    - name: Push changes
+      uses: ad-m/github-push-action@master
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        branch: ${{ github.head_ref }}
