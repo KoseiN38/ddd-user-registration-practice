@@ -1,0 +1,43 @@
+name: Lint and Format
+
+on:
+  pull_request:
+    branches:
+      - '*'
+
+jobs:
+  lint-format:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - name: Set up Python 3.11
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.11'
+    - name: Install Poetry
+      run: |
+        pip install poetry
+    - name: Install dependencies
+      run: poetry install
+    - name: Run isort
+      run: |
+        poetry run python -m isort src/
+        poetry run python -m isort test/
+    - name: Run black
+      run: |
+        poetry run python -m black src/
+        poetry run python -m black test/
+    - name: Run ruff
+      run: |
+        poetry run python -m ruff src/
+        poetry run python -m ruff test/
+    - name: Check for modified files
+      id: git-check
+      run: echo "modified=$(if git diff-index --quiet HEAD --; then echo "false"; else echo "true"; fi)" >> $GITHUB_OUTPUT
+    - name: Push changes
+      if: steps.git-check.outputs.modified == 'true'
+      run: |
+        git config --global user.name 'github-actions'
+        git config --global user.email 'github-actions@github.com'
+        git commit -am "style: workflowによるpython自動整形"
+        git push
