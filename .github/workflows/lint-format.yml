@@ -1,4 +1,4 @@
-name: Lint and Format
+name: Ruff Linting
 
 on:
   pull_request:
@@ -6,12 +6,10 @@ on:
       - '*'
 
 jobs:
-  lint-format:
+  lint:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
-      with:
-        ref: ${{ github.head_ref }}
     - name: Set up Python 3.11
       uses: actions/setup-python@v4
       with:
@@ -21,26 +19,12 @@ jobs:
         pip install poetry
     - name: Install dependencies
       run: poetry install
-    - name: Run isort
-      run: |
-        poetry run python -m isort src/
-        poetry run python -m isort test/
-    - name: Run black
-      run: |
-        poetry run python -m black src/
-        poetry run python -m black test/
     - name: Run ruff
       run: |
-        poetry run python -m ruff check src/
-        poetry run python -m ruff check test/
-    - name: Commit changes
-      run: |
-        git config --global user.name 'github-actions'
-        git config --global user.email 'github-actions@github.com'
-        git add .
-        git diff --quiet && git diff --staged --quiet || git commit -m "style: ワークフローによるPythonコードの自動整形"
-    - name: Push changes
-      uses: ad-m/github-push-action@master
+        poetry run python -m ruff check src/ test/
+    - name: Upload ruff output
+      uses: actions/upload-artifact@v3
+      if: failure()
       with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
-        branch: ${{ github.head_ref }}
+        name: ruff-output
+        path: ruff_output.txt
