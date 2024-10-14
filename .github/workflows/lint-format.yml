@@ -1,0 +1,30 @@
+name: Ruff Linting
+
+on:
+  pull_request:
+    branches:
+      - '*'
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - name: Set up Python 3.11
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.11'
+    - name: Install Poetry
+      run: |
+        pip install poetry
+    - name: Install dependencies
+      run: poetry install
+    - name: Run ruff
+      run: |
+        poetry run python -m ruff check src/ test/
+    - name: Upload ruff output
+      uses: actions/upload-artifact@v3
+      if: failure()
+      with:
+        name: ruff-output
+        path: ruff_output.txt
