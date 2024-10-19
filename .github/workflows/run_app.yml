@@ -1,0 +1,32 @@
+name: Run Python Script
+
+on:
+  workflow_dispatch:
+    inputs:
+      greeting_type:
+        description: 'Greeting type (morning or evening or afternoon)'
+        required: true
+        default: 'hello'
+        type: choice
+        options:
+        - morning
+        - evening
+        - afternoon
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - name: Set up Python 3.11
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.11'
+    - name: Install Poetry
+      run: |
+        pip install poetry
+    - name: Install dependencies
+      run: poetry install
+    - name: Run ruff
+      run: |
+        poetry run python src/app.py -n ${{ github.event.inputs.greeting_type }}
