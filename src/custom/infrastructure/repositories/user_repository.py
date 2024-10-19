@@ -1,6 +1,9 @@
 import sqlite3
+from typing import Literal
 
 from src.custom.domein.entities.user import User
+from src.custom.domein.value_objects.user_id import UserId
+from src.custom.domein.value_objects.user_name import UserName
 
 
 class UserRepository:
@@ -17,10 +20,16 @@ class UserRepository:
         )
         self.conn.commit()
 
-    def find(self, username: str) -> bool:
+    def find(self, user_info: Literal[UserId, UserName]) -> bool:
         """入力されたユーザー名が存在しているか判定する"""
-        self.cursor.execute("SELECT * FROM users WHERE name = ?", (username,))
-        return self.cursor.fetchone() is not None
+        if isinstance(user_info, UserId):
+            self.cursor.execute("SELECT * FROM users WHERE id = ?", (user_info.value,))
+            return self.cursor.fetchone() is not None
+        if isinstance(user_info, UserName):
+            self.cursor.execute(
+                "SELECT * FROM users WHERE name = ?", (user_info.value,)
+            )
+            return self.cursor.fetchone() is not None
 
     def save(self, user: User):
         """入力されたUserをデータベースに保存する"""

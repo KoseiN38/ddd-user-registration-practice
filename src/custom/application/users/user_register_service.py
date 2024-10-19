@@ -21,8 +21,7 @@ class UserRegisterApplication:
         重複がなかった場合、userRepositoryを呼び出してデータベースに保存する
         """
         user = User(UserId(), UserName(username))
-        if self.user_service.exist(user):
-            logger.error("ユーザー名が既に存在します。")
+        if self.user_service.exist(user.user_name):
             return None
         self.user_repository.save(user)
         logger.info("ユーザーが正常に作成されました。")

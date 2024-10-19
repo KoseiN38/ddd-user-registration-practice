@@ -1,5 +1,6 @@
 import pytest
 
+from src.custom.domein.value_objects.user_name import UserName
 from src.custom.application.users.user_register_service import UserRegisterApplication
 from src.custom.domein.services.user_service import UserService
 from src.custom.infrastructure.repositories.in_memory_user_repository import (
@@ -19,7 +20,7 @@ def test_create_user_success(UserApplication):
     user = UserApplication.create_user("testuser")
     assert user is not None
     assert user.user_name.value == "testuser"
-    assert UserApplication.user_repository.find("testuser")
+    assert UserApplication.user_repository.find(UserName("testuser"))
 
 
 def test_create_user_duplicate(UserApplication):
@@ -38,5 +39,5 @@ def test_create_multiple_users(UserApplication):
     user2 = UserApplication.create_user("user2")
     assert user1 is not None
     assert user2 is not None
-    assert UserApplication.user_repository.find("user1")
-    assert UserApplication.user_repository.find("user2")
+    assert UserApplication.user_repository.find(UserName("user1"))
+    assert UserApplication.user_repository.find(UserName("user2"))
