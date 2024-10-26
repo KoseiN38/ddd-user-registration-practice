@@ -2,7 +2,7 @@
 name = "ddd-user-registration-practice"
 version = "0.1.0"
 description = ""
-authors = ["KoseiN38 <kooose0308@gmail.com>"]
+authors = ["KoseiN38 <KoseiN38@users.noreply.github.com>>"]
 readme = "README.md"
 
 [tool.poetry.dependencies]
