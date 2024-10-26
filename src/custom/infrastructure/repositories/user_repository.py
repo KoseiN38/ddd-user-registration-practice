@@ -1,12 +1,13 @@
 import sqlite3
 from typing import Literal, Optional
 
+from src.base.infrastructure.repositories.iuser_repository import IUserRepositry
 from src.custom.domein.entities.user import User
 from src.custom.domein.value_objects.user_id import UserId
 from src.custom.domein.value_objects.user_name import UserName
 
 
-class UserRepository:
+class UserRepository(IUserRepositry):
     """sqlite3に接続してクエリを構築する永続に関わる処理を実装する."""
 
     def __init__(self):
