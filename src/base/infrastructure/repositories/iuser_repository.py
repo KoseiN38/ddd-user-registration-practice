@@ -18,7 +18,7 @@ class IUserRepositry(ABC):
         pass
 
     @abstractmethod
-    def get_user(self):
+    def get_users(self):
         pass
 
     @abstractmethod

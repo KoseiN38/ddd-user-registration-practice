@@ -1,7 +1,8 @@
 import sqlite3
 from typing import Literal, Optional
 
-from src.base.infrastructure.repositories.iuser_repository import IUserRepositry
+from src.base.infrastructure.repositories.iuser_repository import \
+    IUserRepositry
 from src.custom.domein.entities.user import User
 from src.custom.domein.value_objects.user_id import UserId
 from src.custom.domein.value_objects.user_name import UserName
