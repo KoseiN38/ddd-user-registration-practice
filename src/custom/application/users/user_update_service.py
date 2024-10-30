@@ -1,7 +1,9 @@
 from typing import Optional, Tuple
 
 from src.base.application.users.base_service_execute import BaseUserApplication
-from src.base.infrastructure.repositories.iuser_repository import IUserRepositry
+from src.base.domein.entities.base_iuser_factory import IUserFactory
+from src.base.infrastructure.repositories.iuser_repository import \
+    IUserRepositry
 from src.core.logger.logger import logger
 from src.core.trunsaction.trunsaction import transactional
 from src.custom.domein.entities.user import User
@@ -11,15 +13,18 @@ from src.custom.domein.value_objects.user_name import UserName
 
 
 class UserUpdateApplication(BaseUserApplication):
-    def __init__(self, user_service: UserService, user_repository: IUserRepositry):
+    def __init__(self, user_service: UserService, user_repository: IUserRepositry, user_factory: IUserFactory):
         self.user_service = user_service
         self.user_repository = user_repository
+        self.user_factory = user_factory
 
     @transactional
     def execute(self, user_id: str, new_username: str) -> Tuple[Optional[User], int]:
         userid = UserId()
         userid.value = user_id
-        user = User(userid, UserName(new_username))
+        user = self.user_factory.create(
+            userid=userid, username=UserName(new_username)
+        )
         if self.user_service.exist(user.user_id) is False:
             logger.error("指定されたユーザーが見つかりません。")
             return None, 404

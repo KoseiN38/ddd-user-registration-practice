@@ -1,18 +1,20 @@
 import pytest
 
-from src.custom.application.users.user_register_service import UserRegisterApplication
+from src.custom.application.users.user_register_service import \
+    UserRegisterApplication
+from src.custom.domein.entities.user_factory import UserFactory
 from src.custom.domein.services.user_service import UserService
 from src.custom.domein.value_objects.user_name import UserName
-from src.custom.infrastructure.repositories.in_memory_user_repository import (
-    InMemoryUserRepository,
-)
+from src.custom.infrastructure.repositories.in_memory_user_repository import \
+    InMemoryUserRepository
 
 
 @pytest.fixture
 def UserApplication():
     repository = InMemoryUserRepository()
     service = UserService(repository)
-    return UserRegisterApplication(service, repository)
+    factory = UserFactory()
+    return UserRegisterApplication(service, repository, factory)
 
 
 # テスト関数
