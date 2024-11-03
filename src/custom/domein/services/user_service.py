@@ -2,8 +2,7 @@ from typing import Literal
 
 from src.custom.domein.value_objects.user_id import UserId
 from src.custom.domein.value_objects.user_name import UserName
-from src.custom.infrastructure.repositories.user_repository import \
-    UserRepository
+from src.custom.infrastructure.repositories.user_repository import UserRepository
 
 
 class UserService:

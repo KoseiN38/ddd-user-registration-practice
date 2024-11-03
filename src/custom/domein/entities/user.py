@@ -11,3 +11,6 @@ class User:
 
     def change_name(self, user_name: UserName):
         self.user_name = user_name
+
+    def change_id(self, user_id: UserId):
+        self.user_id = user_id

@@ -1,13 +1,13 @@
 import pytest
 
-from src.custom.application.users import (UserRegisterApplication,
-                                          UserUpdateApplication)
+from src.custom.application.users import UserRegisterApplication, UserUpdateApplication
 from src.custom.domein.entities.user_factory import UserFactory
 from src.custom.domein.services.user_service import UserService
 from src.custom.domein.value_objects.user_id import UserId
 from src.custom.domein.value_objects.user_name import UserName
-from src.custom.infrastructure.repositories.in_memory_user_repository import \
-    InMemoryUserRepository
+from src.custom.infrastructure.repositories.in_memory_user_repository import (
+    InMemoryUserRepository,
+)
 
 
 @pytest.fixture
@@ -18,6 +18,7 @@ def repository():
 @pytest.fixture
 def service(repository):
     return UserService(repository)
+
 
 @pytest.fixture
 def factory():
