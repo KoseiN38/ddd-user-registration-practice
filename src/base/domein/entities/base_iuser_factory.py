@@ -10,6 +10,7 @@ class IUserFactory(ABC):
     Args:
         ABC (_type_): _description_
     """
+
     @abstractmethod
     def create(self, username: UserName) -> User:
         pass

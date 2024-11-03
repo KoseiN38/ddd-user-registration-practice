@@ -1,18 +1,21 @@
 from flask import Flask, jsonify, request
 
 from src.core.error.request_error import RequestParameterNotFoundError
-from src.core.error.user_exist_error import (NotFoundUserError,
-                                             NotFoundUserIdError,
-                                             UserAlreadyExistError,
-                                             UserNameAlreadyExistError)
+from src.core.error.user_exist_error import (
+    NotFoundUserError,
+    NotFoundUserIdError,
+    UserAlreadyExistError,
+    UserNameAlreadyExistError,
+)
 from src.core.logger.logger import logger
-from src.custom.application.users import (UserDeleteApplication,
-                                          UserRegisterApplication,
-                                          UserUpdateApplication)
+from src.custom.application.users import (
+    UserDeleteApplication,
+    UserRegisterApplication,
+    UserUpdateApplication,
+)
 from src.custom.domein.entities.user_factory import UserFactory
 from src.custom.domein.services.user_service import UserService
-from src.custom.infrastructure.repositories.user_repository import \
-    UserRepository
+from src.custom.infrastructure.repositories.user_repository import UserRepository
 
 app = Flask(__name__)
 
